@@ -1,4 +1,5 @@
 import hmac
+from typing import Annotated
 
 import structlog
 from fastapi import APIRouter, Depends, Header, HTTPException, Path, status
@@ -14,20 +15,25 @@ from app.services.bot import BotService
 
 router = APIRouter(prefix="/webhooks", tags=["webhooks"])
 logger = structlog.get_logger(__name__)
+DbSession = Annotated[AsyncSession, Depends(get_db_session)]
+AppSettings = Annotated[Settings, Depends(get_settings)]
 
 
 @router.post("/bale/{webhook_secret}")
 async def handle_bale_webhook(
     update: BaleUpdate,
+    db: DbSession,
+    settings: AppSettings,
     webhook_secret: str = Path(...),
     x_webhook_secret: str | None = Header(default=None),
-    db: AsyncSession = Depends(get_db_session),
-    settings: Settings = Depends(get_settings),
 ) -> dict[str, bool]:
     expected = settings.webhook_secret.get_secret_value()
     provided = x_webhook_secret or webhook_secret
     if not hmac.compare_digest(provided, expected):
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid webhook secret")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid webhook secret",
+        )
 
     bot = BotService(db, settings)
     bale = BaleClient(settings)

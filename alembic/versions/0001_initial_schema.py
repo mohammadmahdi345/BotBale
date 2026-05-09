@@ -8,8 +8,9 @@ Create Date: 2026-05-09 12:53:00.000000
 from collections.abc import Sequence
 
 import sqlalchemy as sa
-from alembic import op
 from sqlalchemy.dialects import postgresql
+
+from alembic import op
 
 revision: str = "0001_initial_schema"
 down_revision: str | None = None
@@ -79,7 +80,11 @@ def upgrade() -> None:
         sa.ForeignKeyConstraint(["user_id"], ["users.id"], ondelete="SET NULL"),
         sa.UniqueConstraint("bale_chat_id"),
     )
-    op.create_index("ix_conversation_sessions_bale_chat_id", "conversation_sessions", ["bale_chat_id"])
+    op.create_index(
+        "ix_conversation_sessions_bale_chat_id",
+        "conversation_sessions",
+        ["bale_chat_id"],
+    )
 
     op.create_table(
         "consultations",

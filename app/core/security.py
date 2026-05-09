@@ -50,7 +50,12 @@ def otp_hash(phone_number: str, otp_code: str, settings: Settings) -> str:
     ).hexdigest()
 
 
-def verify_otp_hash(phone_number: str, otp_code: str, expected_hash: str, settings: Settings) -> bool:
+def verify_otp_hash(
+    phone_number: str,
+    otp_code: str,
+    expected_hash: str,
+    settings: Settings,
+) -> bool:
     return hmac.compare_digest(otp_hash(phone_number, otp_code, settings), expected_hash)
 
 

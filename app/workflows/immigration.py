@@ -32,7 +32,10 @@ CATEGORY_SPECIFIC_QUESTIONS = {
         Question("business_background", "آیا سابقه مالکیت کسب وکار یا مدیریت شرکت دارید؟"),
     ],
     "startup": [
-        Question("startup_stage", "ایده یا استارتاپ شما در چه مرحله ای است؟ ایده، MVP، درآمد یا رشد؟"),
+        Question(
+            "startup_stage",
+            "ایده یا استارتاپ شما در چه مرحله ای است؟ ایده، MVP، درآمد یا رشد؟",
+        ),
         Question("team_profile", "تیم شما چه تخصص هایی دارد و چند نفر هستید؟"),
     ],
     "permanent_residency": [

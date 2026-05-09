@@ -41,13 +41,14 @@ class AIConsultant:
 
     async def recommend_countries(self, category: str, answers: dict[str, str]) -> str:
         profile_lines = "\n".join(f"- {key}: {value}" for key, value in answers.items())
+        user_prompt = f"{RECOMMENDATION_PROMPT}\n\nروش مهاجرت: {category}\n{profile_lines}"
         response = await self.client.chat.completions.create(
             model=self.settings.openai_model,
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {
                     "role": "user",
-                    "content": f"{RECOMMENDATION_PROMPT}\n\nروش مهاجرت: {category}\n{profile_lines}",
+                    "content": user_prompt,
                 },
             ],
             temperature=0.2,

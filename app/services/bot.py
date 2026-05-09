@@ -13,7 +13,6 @@ from app.bale.keyboards import (
     main_menu_keyboard,
     method_from_label,
     phone_keyboard,
-    start_keyboard,
 )
 from app.config.settings import Settings
 from app.core.security import SecurityError, phone_hash, utc_now
@@ -30,7 +29,7 @@ from app.repositories.sessions import SessionRepository
 from app.repositories.users import UserRepository
 from app.schemas.bale import BaleMessage, BaleUpdate, ReplyKeyboardMarkup
 from app.services.ai import AIConsultant
-from app.services.auth import AuthService, AuthenticationError
+from app.services.auth import AuthenticationError, AuthService
 from app.services.topic_guard import TopicGuard
 from app.services.usage import UsageLimitService
 from app.workflows.immigration import ImmigrationWorkflow
@@ -280,7 +279,10 @@ class BotService:
             session.context = {"awaiting_ai_question": True}
             return OutboundMessage(
                 chat_id=session.bale_chat_id,
-                text="سوال مهاجرتی خود را بنویسید. فقط به موضوعات مهاجرت، ویزا و اقامت پاسخ می دهم.",
+                text=(
+                    "سوال مهاجرتی خود را بنویسید. فقط به موضوعات مهاجرت، "
+                    "ویزا و اقامت پاسخ می دهم."
+                ),
             )
 
         if text == PROFILE_BUTTON:

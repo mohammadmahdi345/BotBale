@@ -27,7 +27,10 @@ class ConversationSession(Base):
     )
     context: Mapped[dict] = mapped_column(JSONB, default=dict, nullable=False)
     expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
-    authenticated_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    authenticated_at: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True,
+    )
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now)
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
